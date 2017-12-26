@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: base-service-redis
+  redis:
+    database: 0
+    host: 192.168.175.128
+    # password: redispassword
+    port: 6379
+    pool:
+      max-idle: 100
+      min-idle: 1
+      max-active: 1000
+      max-wait: -1
+server:
+  port: 10003
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8760/eureka/,http://peer2:8761/eureka/,http://peer3:8762/eureka/

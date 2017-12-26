@@ -16,6 +16,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>base-service-image</module>
+        <module>base-service-redis</module>
     </modules>
     <properties>
         <version.springcloud>Edgware.RELEASE</version.springcloud>
@@ -51,6 +52,16 @@
             <dependency>
                 <groupId>com.hsy.java</groupId>
                 <artifactId>java-base</artifactId>
+                <version>${version.hsy.java}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hsy.java</groupId>
+                <artifactId>java-exception</artifactId>
+                <version>${version.hsy.java}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hsy.java</groupId>
+                <artifactId>java-enum</artifactId>
                 <version>${version.hsy.java}</version>
             </dependency>
         </dependencies>
