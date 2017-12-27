@@ -119,7 +119,7 @@ public class SingleRedisRepository {
         return flag ;
     }
 
-    public boolean setObjectWithExpireAndTimeUnit(String k, String v, long expire, TimeUnit timeUnit){
+    public boolean setObjectWithExpireAndTimeUnit(String k, Object v, long expire, TimeUnit timeUnit){
         boolean flag = false ;
         try{
             ValueOperations<String,Object> ops = redisTemplate.opsForValue() ;

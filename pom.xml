@@ -24,6 +24,7 @@
         <version.hsy.java>1.0</version.hsy.java>
         <version.kaptcha>2.3.2</version.kaptcha>
         <version.jedis>2.9.0</version.jedis>
+        <version.swagger2>2.7.0</version.swagger2>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -63,6 +64,16 @@
                 <groupId>com.hsy.java</groupId>
                 <artifactId>java-enum</artifactId>
                 <version>${version.hsy.java}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${version.swagger2}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${version.swagger2}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
