@@ -27,7 +27,7 @@ public class ObjectRedisController extends BaseController{
 
     @Autowired private IRedisService redisService ;
 
-    @ApiOperation(value = "字符串set",notes = "添加字符串类型的值到redis")
+    /*@ApiOperation(value = "字符串set",notes = "添加字符串类型的值到redis")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "key",value = "redis键key",required = true,dataType = "String"),
             @ApiImplicitParam(name = "value",value = "redis键value",required = true,dataType = "String"),
@@ -55,5 +55,5 @@ public class ObjectRedisController extends BaseController{
     @PutMapping(value = {"/v1/delete","/v1/{key}/delete"})
     public ResponseBodyBean<Boolean> deleteObjectKey(@RequestParam(value = "key") String key){
         return success(redisService.deleteObjectValue(key));
-    }
+    }*/
 }

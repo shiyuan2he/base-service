@@ -1,6 +1,5 @@
 package com.hsy.base.service.redis.web;
 
-import com.hsy.base.service.redis.dao.SingleRedisRepository;
 import com.hsy.base.service.redis.service.IRedisService;
 import com.hsy.java.bean.dto.ResponseBodyBean;
 import com.hsy.java.bean.web.BaseController;

@@ -44,5 +44,9 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.hsy.java</groupId>
+            <artifactId>java-util</artifactId>
+        </dependency>
     </dependencies>
 </project>

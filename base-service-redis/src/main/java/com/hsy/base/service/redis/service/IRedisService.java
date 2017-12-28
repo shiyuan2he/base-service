@@ -21,7 +21,4 @@ public interface IRedisService {
     boolean setObjectValue(String key,Object value,Long expire) ;
 
     Object getObjectValue(String key);
-
-    boolean deleteObjectValue(String key);
-
 }
