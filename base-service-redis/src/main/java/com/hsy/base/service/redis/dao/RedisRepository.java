@@ -7,7 +7,6 @@ import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,16 +23,17 @@ import java.util.concurrent.TimeUnit;
 public class RedisRepository<T> extends AbstractSpringRedisCache<T>{
 
     @Autowired
-    private RedisTemplate<Object,Object> redisTemplate;
+    private RedisTemplate<String,Object> redisTemplate;
 
-    private ValueOperations<Object,Object> valueOperations;
-    private ListOperations<Object,Object> listOperations;
+    private ValueOperations<String,Object> valueOperations;
+    private ListOperations<String,Object> listOperations;
     private HashOperations hashOperations;
 
     @Override
-    public RedisTemplate<Object,Object> getRedisTemplate() {
+    public RedisTemplate<String, Object> getRedisTemplate() {
         return redisTemplate;
     }
+
     @PostConstruct
     public void getValueOperation(){
         valueOperations = redisTemplate.opsForValue();
