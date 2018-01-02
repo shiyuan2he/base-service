@@ -3,6 +3,7 @@ package com.hsy.base.service.image.web;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.hsy.base.service.image.dao.RedisDao;
+import com.hsy.base.service.image.dao.RedisInterfaceInvoke;
 import com.hsy.java.bean.web.BaseController;
 import com.hsy.java.enums.CacheEnum;
 import com.hsy.java.java.base.utils.VerificationCodeHelper;
@@ -36,8 +37,9 @@ public class ImageController extends BaseController {
 
     private Logger _logger = LoggerFactory.getLogger(this.getClass()) ;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
-    private RedisDao redisDao ;
+    RedisInterfaceInvoke redisInterfaceInvoke ;
 
     @RequestMapping(value = "/v1/code",method = RequestMethod.GET)
     public void getCode(HttpServletResponse response) throws IOException {
@@ -46,7 +48,10 @@ public class ImageController extends BaseController {
         String strCode = verificationCodeHelper.getStr() ;
         _logger.info("【验证码生成器】生成的验证码是：{}",strCode);
         strCode = strCode.toUpperCase() ;
-        redisDao.setKey(CacheEnum.CACHE_KEY_IMAGE_CODE.getCode() + strCode,strCode) ;
+        redisInterfaceInvoke.setStringValue(
+                CacheEnum.CACHE_KEY_IMAGE_CODE.getCode() + strCode,
+                strCode,
+                CacheEnum.CACHE_KEY_IMAGE_CODE.getExpire()) ;
         _logger.info("【验证码生成器】生成验证码放入redis中，key={}",CacheEnum.CACHE_KEY_IMAGE_CODE.getCode() + strCode);
         ServletOutputStream outputStream = response.getOutputStream() ;
         ImageIO.write(verificationCodeHelper.getImage(),"JPEG",outputStream) ;
@@ -70,7 +75,10 @@ public class ImageController extends BaseController {
         String capText = captchaProducer.createText().toUpperCase();
         _logger.info("【验证码生成器】生成的验证码是：{}",capText);
         request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
-        redisDao.setKey(CacheEnum.CACHE_KEY_IMAGE_CODE.getCode() + capText,capText) ;
+        redisInterfaceInvoke.setStringValue(
+                CacheEnum.CACHE_KEY_IMAGE_CODE.getCode() + capText,
+                capText,
+                CacheEnum.CACHE_KEY_IMAGE_CODE.getExpire()) ;
         _logger.info("【验证码生成器】生成验证码放入redis中，key={}",CacheEnum.CACHE_KEY_IMAGE_CODE.getCode() + capText);
         BufferedImage bi = captchaProducer.createImage(capText);
         ServletOutputStream out = response.getOutputStream();

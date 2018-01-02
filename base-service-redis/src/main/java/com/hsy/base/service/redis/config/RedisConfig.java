@@ -2,6 +2,8 @@ package com.hsy.base.service.redis.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -16,6 +18,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.lang.reflect.Method;
 
@@ -33,6 +36,7 @@ import java.lang.reflect.Method;
 @EnableAutoConfiguration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
+    private final Logger _logger = LoggerFactory.getLogger(this.getClass()) ;
     @Value("${spring.redis.host}")
     private String host;
 
@@ -117,6 +121,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         factory.setTimeout(timeout);
         factory.setPassword(password);
         factory.setDatabase(database);
+        //factory.setPoolConfig(jedisPoolConfig());
         return factory;
     }
     /**
@@ -132,9 +137,9 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     /**
-     * 自定义生成redis-key
-     *
-     * @return
+     * @description <p>自定义生成redis-key</p>
+     * @author heshiyuan
+     * @date 2018/1/2 9:56
      */
     @Override
     public KeyGenerator keyGenerator() {
@@ -147,9 +152,26 @@ public class RedisConfig extends CachingConfigurerSupport {
                 for (Object obj : objects) {
                     sb.append(obj.toString());
                 }
-                System.out.println("keyGenerator=" + sb.toString());
+                _logger.info("keyGenerator=" + sb.toString());
                 return sb.toString();
             }
         };
+    }
+    private JedisPoolConfig jedisPoolConfig() {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxTotal(500); // 设置最大实例总数
+        jedisPoolConfig.setMaxIdle(100);  // 设置一个pool最多有多少个状态为idle（空闲）的实例
+        jedisPoolConfig.setMinIdle(100);  // 设置一个pool最少有多少个状态为idle（空闲）的实例
+        // 表示当borrow（引入）一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException
+        jedisPoolConfig.setMaxWaitMillis(3 * 1000);
+        // 再borrow一个redis实例的时候，是否提前进行alidate操作；true：得到的jedis实力均是可用的；
+        jedisPoolConfig.setTestOnBorrow(true);
+        jedisPoolConfig.setTestOnReturn(true);// 再还给pool时，是否提前进行validate操作。
+        jedisPoolConfig.setTestWhileIdle(true);
+        jedisPoolConfig.setMinEvictableIdleTimeMillis(500);
+        jedisPoolConfig.setSoftMinEvictableIdleTimeMillis(1000);
+        jedisPoolConfig.setTimeBetweenEvictionRunsMillis(1000);
+        jedisPoolConfig.setNumTestsPerEvictionRun(100);
+        return jedisPoolConfig;
     }
 }

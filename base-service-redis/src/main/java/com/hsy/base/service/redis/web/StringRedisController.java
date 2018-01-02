@@ -31,19 +31,20 @@ public class StringRedisController extends BaseController{
     @ApiImplicitParams({
             @ApiImplicitParam(name = "key",value = "redis键key",required = true,dataType = "String"),
             @ApiImplicitParam(name = "value",value = "redis键value",required = true,dataType = "String"),
-            @ApiImplicitParam(name = "expire",value = "redis过期时间，默认单位秒",required = true,dataType = "Long"),
+            @ApiImplicitParam(name = "expire",value = "redis过期时间，默认单位秒",dataType = "Long"),
     })
-    @PostMapping("/v1/string/set")
+    @PostMapping("/string/v1/set")
     public ResponseBodyBean<Boolean> setStringValue(
             @RequestParam(value = "key") String key,
             @RequestParam(value = "value") String value,
-            @RequestParam(value = "expire") Long expire
+            @RequestParam(value = "expire",required = false) Long expire
     ){
         return success(redisService.setStringValue(key, value, expire));
     }
+
     @ApiOperation(value = "get操作",notes = "从字符串获取string类型的值")
     @ApiImplicitParam(name = "key",value = "redis键key",required = true,dataType = "String",paramType = "path")
-    @GetMapping(value = {"/v1/string/get","/v1/string/{key}/get"})
+    @GetMapping(value = {"/string/v1/get","/string/v1/{key}/get"})
     public ResponseBodyBean<Object> getStringValue(
             @RequestParam(value = "key") String key){
         return success(redisService.getStringValue(key));

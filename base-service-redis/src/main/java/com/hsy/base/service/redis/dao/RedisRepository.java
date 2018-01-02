@@ -2,6 +2,8 @@ package com.hsy.base.service.redis.dao;
 import com.hsy.java.enums.CacheEnum;
 import com.hsy.java.exception.cache.CacheException;
 import com.hsy.java.util.cache.redis.impl.AbstractSpringRedisCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Repository;
@@ -20,8 +22,9 @@ import java.util.concurrent.TimeUnit;
  * @price ¥5    微信：hewei1109
  */
 @Repository
-public class RedisRepository<T> extends AbstractSpringRedisCache<T>{
-
+public class RedisRepository extends AbstractSpringRedisCache {
+    private final Logger _logger = LoggerFactory.getLogger(this.getClass()) ;
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
@@ -36,30 +39,32 @@ public class RedisRepository<T> extends AbstractSpringRedisCache<T>{
 
     @PostConstruct
     public void getValueOperation(){
+        _logger.info("正在初始化valueOperations，listOperations，hashOperations");
         valueOperations = redisTemplate.opsForValue();
         listOperations = redisTemplate.opsForList();
         hashOperations = redisTemplate.opsForHash();
     }
 
-    public boolean setString(String k,String v){
+    public <T> boolean setString(String k,Object obj){
         try{
-            valueOperations.set(k,v);
+            valueOperations.set(k,obj);
+            return true ;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new CacheException(CacheEnum.CACHE_HANDLE_SET_EXCEPTION) ;
+        }
+    }
+
+    public <T> boolean setStringWithExpire(String k,T obj,long expire){
+        try{
+            valueOperations.set(k,obj,expire);
             return true ;
         }catch(Exception e){
             throw new CacheException(CacheEnum.CACHE_HANDLE_SET_EXCEPTION) ;
         }
     }
 
-    public boolean setStringWithExpire(String k,String v,long expire){
-        try{
-            valueOperations.set(k,v,expire);
-            return true ;
-        }catch(Exception e){
-            throw new CacheException(CacheEnum.CACHE_HANDLE_SET_EXCEPTION) ;
-        }
-    }
-
-    public boolean setStringWithExpireAndTimeUnit(String k, String v, long expire, TimeUnit timeUnit){
+    public <T> boolean setStringWithExpireAndTimeUnit(String k, T v, long expire, TimeUnit timeUnit){
         try{
             valueOperations.set(k,v,expire,timeUnit);
             return true ;
@@ -68,10 +73,26 @@ public class RedisRepository<T> extends AbstractSpringRedisCache<T>{
         }
     }
 
-    public String getStringValue(String k){
+    public <T> T getStringValue(String k){
         try{
-            return (String) valueOperations.get(k) ;
+            return (T) valueOperations.get(k) ;
         }catch(Exception e){
+            throw new CacheException(CacheEnum.CACHE_HANDLE_GET_EXCEPTION) ;
+        }
+    }
+
+    public <T> Long setList(String key,T obj){
+        try {
+            return listOperations.leftPush(key,obj);
+        } catch (Exception e) {
+            throw new CacheException(CacheEnum.CACHE_HANDLE_SET_EXCEPTION) ;
+        }
+    }
+
+    public <T> T getList(String key){
+        try {
+            return (T) listOperations.leftPop(key) ;
+        } catch (Exception e) {
             throw new CacheException(CacheEnum.CACHE_HANDLE_GET_EXCEPTION) ;
         }
     }
