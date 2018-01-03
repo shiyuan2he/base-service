@@ -45,7 +45,7 @@ public class StringRedisController extends BaseController{
     @ApiOperation(value = "get操作",notes = "从字符串获取string类型的值")
     @ApiImplicitParam(name = "key",value = "redis键key",required = true,dataType = "String",paramType = "path")
     @GetMapping(value = {"/string/v1/get","/string/v1/{key}/get"})
-    public ResponseBodyBean<Object> getStringValue(
+    public ResponseBodyBean<String> getStringValue(
             @RequestParam(value = "key") String key){
         return success(redisService.getStringValue(key));
     }
