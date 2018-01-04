@@ -2,7 +2,6 @@ package com.hsy.base.service.image.web;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import com.hsy.base.service.image.dao.RedisDao;
 import com.hsy.base.service.image.dao.RedisInterfaceInvoke;
 import com.hsy.java.bean.web.BaseController;
 import com.hsy.java.enums.CacheEnum;
