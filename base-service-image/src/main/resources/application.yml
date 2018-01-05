@@ -3,7 +3,10 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://peer1:8760/eureka/,http://peer2:8761/eureka/,http://peer3:8762/eureka/
+      defaultZone: http://discovery:8760/eureka/,http://discovery1:8761/eureka/,http://discovery2:8762/eureka/
 spring:
   application:
     name: base-service-image
+logging:
+  config: classpath:log4j2.xml
+
