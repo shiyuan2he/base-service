@@ -1,0 +1,9 @@
+server:
+  port: 10002
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery:8760/eureka/,http://discovery1:8761/eureka/,http://discovery2:8762/eureka/
+spring:
+  application:
+    name: base-service-image

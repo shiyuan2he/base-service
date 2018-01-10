@@ -1,12 +1,4 @@
 spring:
   profiles:
-    active: home
-server:
-  port: 10002
-eureka:
-  client:
-    service-url:
-      defaultZone: http://peer1:10000/eureka/,http://peer2:20000/eureka/,http://peer3:30000/eureka/
-spring:
-  application:
-    name: base-service-image
+    active: company1
+
