@@ -71,9 +71,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         //StringRedisTemplate的构造方法中默认设置了stringSerializer
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         //set key serializer
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        /*StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         template.setKeySerializer(stringRedisSerializer);
-        template.setHashKeySerializer(stringRedisSerializer);
+        template.setHashKeySerializer(stringRedisSerializer);*/
 
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -82,7 +82,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
         //set value serializer
-        template.setDefaultSerializer(jackson2JsonRedisSerializer);
+        template.setValueSerializer(jackson2JsonRedisSerializer);
 
         template.setConnectionFactory(jedisConnectionFactory());
         template.afterPropertiesSet();
@@ -121,7 +121,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         factory.setTimeout(timeout);
         factory.setPassword(password);
         factory.setDatabase(database);
-        //factory.setPoolConfig(jedisPoolConfig());
+        factory.setPoolConfig(jedisPoolConfig());
         return factory;
     }
     /**
