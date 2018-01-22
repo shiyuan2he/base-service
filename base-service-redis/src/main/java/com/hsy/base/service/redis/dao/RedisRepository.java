@@ -1,7 +1,6 @@
 package com.hsy.base.service.redis.dao;
 import com.hsy.java.enums.CacheEnum;
 import com.hsy.java.exception.cache.CacheException;
-import com.hsy.java.util.cache.redis.impl.AbstractSpringRedisCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @price ¥5    微信：hewei1109
  */
 @Repository
-public class RedisRepository extends AbstractSpringRedisCache {
+public class RedisRepository{
     private final Logger _logger = LoggerFactory.getLogger(this.getClass()) ;
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -31,11 +30,6 @@ public class RedisRepository extends AbstractSpringRedisCache {
     private ValueOperations<String,Object> valueOperations;
     private ListOperations<String,Object> listOperations;
     private HashOperations hashOperations;
-
-    @Override
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
-    }
 
     @PostConstruct
     public void getValueOperation(){
@@ -50,7 +44,6 @@ public class RedisRepository extends AbstractSpringRedisCache {
             valueOperations.set(k,obj);
             return true ;
         }catch(Exception e){
-            e.printStackTrace();
             throw new CacheException(CacheEnum.CACHE_HANDLE_SET_EXCEPTION) ;
         }
     }
