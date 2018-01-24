@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "redis组件服务",description = "封装redis，对外提供redis组件服务")
 @RestController
 @RequestMapping("/api/rest/redis")
-public class StringRedisController extends BaseController{
+public class StringRedisTemplateController extends BaseController{
 
     @Autowired private IRedisService redisService ;
 

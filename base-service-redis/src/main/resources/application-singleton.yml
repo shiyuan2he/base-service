@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: base-service-redis
+  redis:
+    database: 0
+    sentinel:
+      master: mymaster
+      nodes: 172.16.151.102:26379,172.16.151.102:26380,172.16.151.102:26381
+    timeout: 5000
+    password: 123456
+    host: 192.168.216.129
+    port: 6379
+server:
+  port: 8003
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka/

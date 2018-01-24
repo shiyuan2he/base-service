@@ -21,4 +21,29 @@ public interface IRedisService {
     boolean setObjectValue(String key,Object value,Long expire) ;
 
     Object getObjectValue(String key);
+    /**
+     * @description <p>原子操作，+1</p>
+     * @threadSafe
+     * @param key 键
+     * @return +1之前的值
+     * @author heshiyuan
+     * @date 2018/1/24 21:00
+     * @email shiyuan4work@sina.com
+     * @github https://github.com/shiyuan2he.git
+     * Copyright (c) 2016 shiyuan4work@sina.com All rights reserved
+     */
+    Long incr(String key) ;
+    /**
+     * @description <p>原子操作，+1</p>
+     * @threadSafe
+     * @param key 键
+     * @param expire 过期时间
+     * @return +1之前的值
+     * @author heshiyuan
+     * @date 2018/1/24 21:00
+     * @email shiyuan4work@sina.com
+     * @github https://github.com/shiyuan2he.git
+     * Copyright (c) 2016 shiyuan4work@sina.com All rights reserved
+     */
+    Long incr(String key,Long expire) ;
 }

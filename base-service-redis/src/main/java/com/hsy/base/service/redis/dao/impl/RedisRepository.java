@@ -22,11 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @price ¥5    微信：hewei1109
  */
 @Repository
-<<<<<<< HEAD:base-service-redis/src/main/java/com/hsy/base/service/redis/dao/RedisRepository.java
-public class RedisRepository{
-=======
-public class RedisRepository extends AbstractSpringRedisCache implements IRedisRepository{
->>>>>>> 4137a04b6864e629f506e626fd2ccc2570b9a1fc:base-service-redis/src/main/java/com/hsy/base/service/redis/dao/impl/RedisRepository.java
+public class RedisRepository implements IRedisRepository{
     private final Logger _logger = LoggerFactory.getLogger(this.getClass()) ;
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -44,7 +40,7 @@ public class RedisRepository extends AbstractSpringRedisCache implements IRedisR
         hashOperations = redisTemplate.opsForHash();
     }
 
-    public <T> boolean setString(String k,Object obj){
+    public boolean setString(String k,Object obj){
         try{
             valueOperations.set(k,obj);
             return true ;
@@ -120,5 +116,15 @@ public class RedisRepository extends AbstractSpringRedisCache implements IRedisR
      */
     public boolean exists(final String key) {
         return redisTemplate.hasKey(key);
+    }
+
+    @Override
+    public Long incr(String key) {
+        return redisTemplate.getConnectionFactory().getConnection().incr(key.getBytes()) ;
+    }
+
+    @Override
+    public Long incr(String key, Long expire) {
+        return redisTemplate.getConnectionFactory().getConnection().incrBy(key.getBytes(),expire) ;
     }
 }

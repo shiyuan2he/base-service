@@ -1,6 +1,6 @@
 package com.hsy.base.service.redis.service.impl;
 
-import com.hsy.base.service.redis.dao.RedisRepository;
+import com.hsy.base.service.redis.dao.impl.RedisRepository;
 import com.hsy.base.service.redis.service.IRedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +48,15 @@ public class RedisServiceImpl implements IRedisService{
     @Override
     public Object getObjectValue(String key) {
         return false ;
+    }
+
+    @Override
+    public Long incr(String key) {
+        return redisRepository.incr(key);
+    }
+
+    @Override
+    public Long incr(String key, Long expire) {
+        return redisRepository.incr(key,expire);
     }
 }

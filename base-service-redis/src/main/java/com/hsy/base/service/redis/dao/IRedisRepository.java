@@ -1,18 +1,6 @@
 package com.hsy.base.service.redis.dao;
 
-import com.hsy.java.enums.CacheEnum;
-import com.hsy.java.exception.cache.CacheException;
-import com.hsy.java.util.cache.redis.impl.AbstractSpringRedisCache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
-
-import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,7 +21,7 @@ public interface IRedisRepository{
      * @param obj 
      * @return
      */
-    <T> boolean setString(String k,Object obj) ;
+    boolean setString(String k,Object obj) ;
     /**
      * @description <p>设置带有过期时间的字符串</p>
      * @param k 键
@@ -103,4 +91,29 @@ public interface IRedisRepository{
      * @return
      */
     boolean exists(final String key);
+    /**
+     * @description <p>原子操作，+1</p>
+     * @threadSafe
+     * @param key 键
+     * @return +1之前的值
+     * @author heshiyuan
+     * @date 2018/1/24 21:00
+     * @email shiyuan4work@sina.com
+     * @github https://github.com/shiyuan2he.git
+     * Copyright (c) 2016 shiyuan4work@sina.com All rights reserved
+     */
+    Long incr(String key) ;
+    /**
+     * @description <p>原子操作，+1</p>
+     * @threadSafe
+     * @param key 键
+     * @param expire 过期时间
+     * @return +1之前的值
+     * @author heshiyuan 
+     * @date 2018/1/24 21:00 
+     * @email shiyuan4work@sina.com
+     * @github https://github.com/shiyuan2he.git
+     * Copyright (c) 2016 shiyuan4work@sina.com All rights reserved
+     */
+    Long incr(String key,Long expire) ;
 }
