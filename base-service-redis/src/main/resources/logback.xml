@@ -4,6 +4,7 @@
     <!-- 文件输出格式 -->
     <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID:-} [%15.15t] %-40.40logger{39} : %m%n" />
     <property name="charsetEncoding" value="UTF-8" />
+    <property name="logHome" value="./logs/redis" />
     <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>-->
 
     <!--控制台日志-->
@@ -15,10 +16,10 @@
     </appender>
 
     <appender name="dailyRollingFileAppenderDebug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>./logs/image/debug.log</File>
+        <File>${logHome}/debug.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <FileNamePattern>./logs/image/debug.%d{yyyy-MM-dd_HH}.log</FileNamePattern>
+            <FileNamePattern>./logs/redis/debug.%d{yyyy-MM-dd_HH}.log</FileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>7</maxHistory>
         </rollingPolicy>
@@ -27,10 +28,10 @@
         </encoder>
     </appender>
     <appender name="dailyRollingFileAppenderInfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>./logs/image/info.log</File>
+        <File>${logHome}/info.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <FileNamePattern>./logs/image/info.%d{yyyy-MM-dd_HH}.log</FileNamePattern>
+            <FileNamePattern>${logHome}/info.%d{yyyy-MM-dd_HH}.log</FileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>7</maxHistory>
         </rollingPolicy>
@@ -39,10 +40,10 @@
         </encoder>
     </appender>
     <appender name="dailyRollingFileAppenderError" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>./logs/image/error.log</File>
+        <File>${logHome}/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <FileNamePattern>./logs/image/error.%d{yyyy-MM-dd_HH}.log</FileNamePattern>
+            <FileNamePattern>${logHome}/error.%d{yyyy-MM-dd_HH}.log</FileNamePattern>
             <!-- keep 30 days' worth of history -->
             <maxHistory>7</maxHistory>
         </rollingPolicy>

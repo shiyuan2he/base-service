@@ -33,8 +33,13 @@
             <artifactId>java-exception</artifactId>
             <exclusions>
                 <exclusion>
+<<<<<<< HEAD
                     <groupId>com.hsy.java</groupId>
                     <artifactId>java-enum</artifactId>
+=======
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+>>>>>>> 4137a04b6864e629f506e626fd2ccc2570b9a1fc
                 </exclusion>
             </exclusions>
         </dependency>

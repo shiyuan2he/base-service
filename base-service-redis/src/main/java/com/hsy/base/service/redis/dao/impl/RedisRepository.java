@@ -1,4 +1,5 @@
-package com.hsy.base.service.redis.dao;
+package com.hsy.base.service.redis.dao.impl;
+import com.hsy.base.service.redis.dao.IRedisRepository;
 import com.hsy.java.enums.CacheEnum;
 import com.hsy.java.exception.cache.CacheException;
 import org.slf4j.Logger;
@@ -21,7 +22,11 @@ import java.util.concurrent.TimeUnit;
  * @price ¥5    微信：hewei1109
  */
 @Repository
+<<<<<<< HEAD:base-service-redis/src/main/java/com/hsy/base/service/redis/dao/RedisRepository.java
 public class RedisRepository{
+=======
+public class RedisRepository extends AbstractSpringRedisCache implements IRedisRepository{
+>>>>>>> 4137a04b6864e629f506e626fd2ccc2570b9a1fc:base-service-redis/src/main/java/com/hsy/base/service/redis/dao/impl/RedisRepository.java
     private final Logger _logger = LoggerFactory.getLogger(this.getClass()) ;
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -100,10 +105,20 @@ public class RedisRepository{
 
     public boolean delete(String k){
         try{
-            redisTemplate.delete(k);
+            if(exists(k)){
+                redisTemplate.delete(k);
+            }
             return true ;
         }catch(Exception e){
             throw new CacheException(CacheEnum.CACHE_HANDLE_DELETE_EXCEPTION) ;
         }
+    }
+    /**
+     * 判断缓存中是否有对应的value
+     * @param key
+     * @return
+     */
+    public boolean exists(final String key) {
+        return redisTemplate.hasKey(key);
     }
 }
